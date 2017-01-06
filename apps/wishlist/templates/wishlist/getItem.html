@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wish List</title>
+    <meta name="description" content="Coding Dojo, Python II, Django II, travel">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'login_reg/css/style.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <a class="btn btn-link" href="{% url 'login_reg:logout' %}" role="button">Logout</a>
+        <a class="btn btn-link" href="{% url 'wishlist:index' %}" role="button">Home</a>
+      </nav>
+      <header class="page-header">
+        <h1>Wish List <small> Item #{{ item.id }}: {{ item.item }}</small></h1>
+      </header>
+
+      <section>
+        <h4 style="padding-bottom:20px;">Users who added this item/product to their Wishlist:</h4>
+
+        {% for wishlist in wishlists %}
+          {% if item == wishlist.item %}
+            <h5>{{ wishlist.this_user.name }} ({{ wishlist.this_user.username }})</h5>
+          {% endif %}
+        {% endfor %}
+      </section>
+    </div>
+  </body>
+</html>

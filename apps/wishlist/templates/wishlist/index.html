@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+    <meta name="description" content="Coding Dojo, Python II, Django II, travel">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'login_reg/css/style.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <a class="btn btn-link" href="{% url 'login_reg:logout' %}" role="button">Logout</a>
+      </nav>
+      <header class="page-header">
+        <h1>Travel Buddies <small>{% if request.session.success %}
+          Welcome {{ request.session.success }}
+        {% endif %}</small></h1>
+      </header>
+
+      <!-- {{ thisUser.id }} {{ thisUser.name }} -->
+  <!-- your Wishlist section -->
+      <section>
+        <h3>Your Wishlist</h3>
+        <table class="table table-bordered">
+          <thead>
+            <th>Item</th>
+            <th>Added By</th>
+            <th>Date Added</th>
+            <th>Action</th>
+          </thead>
+
+          <tbody>
+            {% for wishlist in wishlists %}
+              {% if thisUser == wishlist.this_user %}
+                <tr>
+                  <td><a href="{% url 'wishlist:getItem' wishlist.item.id %}">{{  wishlist.item.item }}</a></td>
+                  <td>{{  wishlist.item.user.username }}</td>
+                  <td>{{  wishlist.created_at }}</td>
+                  {% if thisUser == wishlist.item.user %}
+                    <td>
+                      <form action="{% url 'wishlist:delete' %}" method="POST">
+                      {% csrf_token %}
+                        <input type="hidden" name="item" value="{{ wishlist.item.id }}">
+                        <input class="btn btn-link" type="submit" value="Delete">
+                      </form>
+                    </td>
+                  {% else %}
+                  <td>
+                    <form action="{% url 'wishlist:remove' %}" method="POST">
+                    {% csrf_token %}
+                      <input type="hidden" name="listItem" value="{{ wishlist.id }}">
+                      <input class="btn btn-link" type="submit" value="Remove from Wishlist">
+                    </form>
+                  </td>
+                  {% endif %}
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+  <!-- other people's Wishlist section -->
+      <section>
+        <h3>Other Users' Wishlist Items</h3>
+        <table class="table table-bordered">
+          <thead>
+            <th>Item</th>
+            <th>Added By</th>
+            <th>Date Added</th>
+            <th>Action</th>
+          </thead>
+
+          <tbody>
+            {% for wishlist in wishlists %}
+              {% if thisUser != wishlist.this_user %}
+                {% if wishlist.this_user == wishlist.item.user %}
+                  <tr>
+                    <td><a href="{% url 'wishlist:getItem' wishlist.item.id %}">{{ wishlist.item.item }}</a></td>
+                    <td>{{ wishlist.item.user.username }}</td>
+                    <td>{{ wishlist.created_at }}</td>
+                    <td>
+                      <form action="{% url 'wishlist:addThis' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="user" value="{{ thisUser.id }}">
+                        <input type="hidden" name="item" value="{{ wishlist.item.id }}">
+                        <input class="btn btn-link" type="submit" value="Add to my Wishlist">
+                      </form>
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <footer>
+        <a class="btn btn-link" href="{% url 'wishlist:add' %}" role="button">Add New Item</a>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+.container{
+  margin: auto;
+  width: 1000px;
+}
+  nav>a{
+    float: right;
+  }
+  footer>a{
+    float: right;
+  }
+  article{
+    display: inline-block;
+    width: 400px;
+    vertical-align: top;
+    margin: 35px;
+  }
+    .login_reg{
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e3e3e3;
+    }
+    label{
+      display: inline-block;
+      width: 20%;
+      margin-right: 10px;
+    }
+    .form-control{
+      display: inline-block;
+      width: 75%;
+    }
+    .btn.btn-primary{
+      float: right;
+      margin: 10px;
+    }
+  .table>tbody>tr>td{
+    vertical-align: middle;
+  }

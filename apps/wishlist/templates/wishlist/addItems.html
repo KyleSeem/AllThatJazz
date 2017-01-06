@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Wish List</title>
+    <meta name="description" content="Coding Dojo, Python II, Django II, travel">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'login_reg/css/style.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <nav>
+        <a class="btn btn-link" href="{% url 'login_reg:logout' %}" role="button">Logout</a>
+        <a class="btn btn-link" href="{% url 'wishlist:index' %}" role="button">Home</a>
+      </nav>
+      <header class="page-header">
+        <h1>Wish List <small> Add a new item to you list</small></h1>
+      </header>
+
+      <!-- {{ thisUser.id }} {{ thisUser.name }} -->
+
+      {% if messages %}
+        <section class="alert alert-danger">
+          {% for alert in messages %}
+            <p {% if messages.tags %} class="messages.tags" {% endif %}>{{ alert }}</p>
+          {% endfor %}
+        </section>
+      {% endif %}
+
+      <section>
+        <form class="form-horizontal" action="{% url 'wishlist:add' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="user" value="{{ thisUser.id }}">
+          <div class="form-group">
+            <label class="control-label">Item/Product</label>
+            <input class="form-control" type="text" name="item">
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Add">
+          </div>
+        </form>
+      </section>
+      <!-- {% for item in items %}
+        <p>{{ item.user.id }} {{ item.user.name }} {{ item.item }}</p>
+      {% endfor %} -->
+    </div>
+  </body>
+</html>

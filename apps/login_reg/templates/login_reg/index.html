@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login and Registration</title>
+    <meta name="description" content="Coding Dojo, Python II, Django II, Wishlist">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'login_reg/css/style.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <h1>Login and Registration <small> Wishlist</small></h1>
+      </header>
+
+      <!-- {% for user in users %}
+        <p>{{ user.id }} | {{ user.name }} | {{ user.username }} | {{ user.pw_hashed }}</p>
+      {% endfor %} -->
+  <!-- flash messages section -->
+      <section>
+        {% if messages %}
+          <div class="alert alert-danger">
+          {% for alert in messages %}
+            <p {% if messages.tags %} class="messages.tags" {% endif %}>{{ alert }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </section>
+
+  <!-- forms section -->
+      <section>
+        <article>
+          <h3 class="login_reg">Register</h3>
+          <form class="form-horizontal" action="{% url 'login_reg:register' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label">Name:</label>
+              <input class="form-control" type="text" name="name">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Username:</label>
+              <input class="form-control" type="text" name="username">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Password:</label>
+              <input class="form-control" type="text" name="password">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Confirm pw:</label>
+              <input class="form-control" type="text" name="pw_verify">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Date Hired:</label>
+              <input class="form-control" style="width:auto;" type="date" name="hire_date">
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary" type="submit" value="Register">
+            </div>
+          </form>
+        </article>
+
+        <article>
+          <h3 class="login_reg">Login</h3>
+          <form class="form-horizontal" action="{% url 'login_reg:login' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label">Username:</label>
+              <input class="form-control" type="text" name="username">
+            </div>
+            <div class="form-group">
+              <label class="control-label">Password:</label>
+              <input class="form-control" type="text" name="password">
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary" type="submit" value="Login">
+            </div>
+          </form>
+        </article>
+      </section>
+
+    </div>
+  </body>
+</html>
