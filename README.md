@@ -1,3 +1,2 @@
 # AllThatJazz
-
-project deployment at: http://35.166.250.57/
+this was an exam for school, it has been erroneously named to disguise version and content
